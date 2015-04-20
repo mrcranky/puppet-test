@@ -1,0 +1,22 @@
+{
+  "name": "branan-s3file",
+  "version": "1.0.1",
+  "source": "https://github.com/branan/puppet-module-s3file",
+  "author": "Branan Purvine-Riley",
+  "license": "Apache License 2.0",
+  "summary": "S3 File Synchronization",
+  "description": "Keep a file up-to-date with an S3 source",
+  "project_page": "https://github.com/branan/puppet-module-s3file",
+  "dependencies": [
+
+  ],
+  "types": [
+
+  ],
+  "checksums": {
+    "Modulefile": "6f10b9827c5d3ce7d23e001d9bdf3bc0",
+    "README.md": "7dac3387ee0d5433fd3c199902952d0a",
+    "manifests/curl.pp": "88e39aeb5374a9bb6969c6551c8ca662",
+    "manifests/init.pp": "5fbce7e364b6fada8333bad8141d1a65"
+  }
+}
