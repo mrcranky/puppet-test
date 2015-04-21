@@ -1,0 +1,13 @@
+{
+  "name": "jbussdieker-cloud_file",
+  "version": "0.0.7",
+  "author": "Joshua B. Bussdieker",
+  "summary": "Cloud File Module",
+  "license": "Apache 2.0",
+  "source": "git@github.com:jbussdieker/puppet-cloud_file.git",
+  "project_page": null,
+  "issues_url": null,
+  "dependencies": [
+  
+  ]
+}
