@@ -16,4 +16,11 @@ node default {
     source => 'c:\installers\npp-Installer.exe',
     install_options => [ '/S' ],
   }
+  include 'stdlib'
+  include 's3file::curl'
+  s3file { 'c:\installers\/path/to/destination/file':
+    source => 'MyBucket/the/file',
+    ensure => 'latest',
+  }
+
 }
