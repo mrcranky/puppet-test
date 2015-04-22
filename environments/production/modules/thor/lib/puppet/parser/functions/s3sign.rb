@@ -54,23 +54,24 @@ class S3Sign
   end
 
   # generate a url to put a file onto S3
-  def put(bucket, key, expires_in=0, headers={})
-    return generate_url('PUT', "/#{bucket}/#{CGI::escape key}", expires_in, headers)
+  def put(domain, bucket, key, expires_in=0, headers={})
+    return generate_url('PUT', domain, bucket, key, expires_in, headers)
   end
 
   # generate a url to put a file onto S3
-  def get(bucket, key, expires_in=0, headers={})
-    return generate_url('GET', "/#{bucket}/#{CGI::escape key}", expires_in, headers)
+  def get(domain, bucket, key, expires_in=0, headers={})
+    return generate_url('GET', domain, bucket, key, expires_in, headers)
   end
 
   # generate a url with the appropriate query string authentication parameters set.
-  def generate_url(method, path, expires_in, headers)
-    #log "path is #{path}"
+  def generate_url(method, domain, bucket, key, expires_in, headers)
+    path = "/#{bucket}/#{key}"
     expires = expires_in.nil? ? 0 : Time.now.to_i + expires_in.to_i
     canonical_string = canonical_string(method, path, headers, expires)
     encoded_canonical = encode(canonical_string)
-    arg_sep = path.index('?') ? '&' : '?'
-    return path + arg_sep + "Signature=#{encoded_canonical}&" + 
+
+    arg_sep = key.index('?') ? '&' : '?'
+    return "/#{bucket}/#{key}" + arg_sep + "Signature=#{encoded_canonical}&" + 
            "Expires=#{expires}&AWSAccessKeyId=#{@aws_access_key_id}"
   end
 

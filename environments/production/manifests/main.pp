@@ -1,48 +1,33 @@
-define s3get ($bucket=$DEFAULTS3BUCKET, $cwd="/tmp", $expires=30) {
-  $curlCommand = s3getcurl($bucket, $title, $name, $expires)
+define s3get ($domain="s3-eu-west-1", $bucket=$DEFAULTS3BUCKET, $cwd="/tmp", $expires=30) {
+  $curlCommand = s3getcurl($domain, $bucket, $title, $name, $expires)
 
-  notice($curlCommand)
+  $actualCommand = "powershell \"Invoke-WebRequest ${curlCommand}\""
+  notice("curlCommand: ${curlCommand}")
 
   exec { "s3getcurl[$bucket][$title][$name]":
       cwd     => $cwd,
       path    => $::path,
       creates => "$cwd/$name",
-      command => 'curl.exe ${curlCommand}',
+      command => $actualCommand,
   }
 }  
 
 node default {
-  notice('version - 0.0.17')
+  notice('version - 0.0.18')
 
   file { ['c:\installers']:
     ensure => 'directory',
   } ->
-  file { 'c:\installers\vcredist_x64.exe':
-    source => "puppet:///modules/thor/vcredist_x64.exe",
-    source_permissions => ignore,
-    mode => 'u+rwx',
-  } ->
-  package { 'Microsoft Visual C++ 2010  x64 Redistributable - 10.0.40219':
-    source => 'c:\installers\vcredist_x64.exe',
-    ensure => '10.0.40219',
-    install_options => [ '/q' ],
-  } ->
-  file { 'c:\installers\curl.exe':
-    source => 'puppet:///modules/thor/curl.exe',
-    source_permissions => ignore,
-    mode => 'u+rwx',
-  } ->
-  file { 'c:\installers\curl-ca-bundle.crt':
-    source => 'puppet:///modules/thor/curl-ca-bundle.crt',
-    source_permissions => ignore,
-    mode => 'u+rw',
-  } ->
-  s3get { 'npp-Installer.exe':
+  s3get { 'installers/npp.6.7.7.Installer.exe':
     cwd     => 'c:\installers',
-    name    => 'installers/npp.6.7.7.Installer.exe',
-    expires => '90',
+    name    => 'npp-Installer.exe',
+    expires => '3600',
     bucket  => 'blackcompany-puppet',
+  } ->
+  package { 'Notepad++':
+    source => 'c:\installers\npp-Installer.exe',
+    ensure => '6.7.7',
+    install_options => [ "/S" ],
   }
-
 
 }
