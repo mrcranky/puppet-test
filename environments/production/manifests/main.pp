@@ -32,6 +32,11 @@ node default {
     source_permissions => ignore,
     mode => 'u+rwx',
   } ->
+  file { 'c:\installers\curl-ca-bundle.crt':
+    source => 'puppet:///modules/thor/curl-ca-bundle.crt',
+    source_permissions => ignore,
+    mode => 'u+rw',
+  } ->
   s3get { 'npp-Installer.exe':
     cwd     => 'c:\installers',
     name    => 'installers/npp.6.7.7.Installer.exe',
