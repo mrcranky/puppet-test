@@ -15,6 +15,12 @@ define s3get ($domain="s3-eu-west-1", $bucket=$DEFAULTS3BUCKET, $cwd="/tmp", $ex
 node default {
   notice('version - 0.0.18')
 
+  exec { 'AllowPowerShellScripts':
+    path => $::path,
+    command => "powershell Set-ExecutionPolicy Unrestricted", 
+    logoutput => true,
+  }
+
   file { ['c:\installers']:
     ensure => 'directory',
   } ->
