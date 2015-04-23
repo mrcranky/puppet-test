@@ -19,11 +19,19 @@ node default {
     path => $::path,
     command => "powershell Set-ExecutionPolicy Unrestricted", 
     logoutput => true,
-  }
+  } ->
+
+  file { "$system32/WindowsPowerShell/v1.0/Modules/PSWindowsUpdate":
+    ensure => directory,
+    recurse => remote,
+    source => 'puppet:///modules/thor/PSWindowsUpdate',
+    source_permissions => ignore,
+  } ->
 
   file { ['c:\installers']:
-    ensure => 'directory',
+    ensure => directory,
   } ->
+
   s3get { 'installers/npp.6.7.7.Installer.exe':
     cwd     => 'c:\installers',
     name    => 'npp-Installer.exe',
