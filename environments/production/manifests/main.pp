@@ -40,6 +40,7 @@ node default {
 
   exec { 'WindowsUpdate':
     path => $::path,
+    cwd => 'c:\installers',
     command => 'powershell .\windows_update.ps1 \"04/16/2015 12:00\"', 
     logoutput => true,
   } ->

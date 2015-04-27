@@ -1,12 +1,12 @@
 #Download and install software updates from WU that are selected by default
 
 param (
-	[Parameter(Mandatory=$true)][Datetime]$threshold
+    [Parameter(Mandatory=$true)][Datetime]$threshold
 )
  
 function WriteEvent ($eventMessage,$eventType,$eventID)
 {
-	Write-Host $eventMessage
+    Write-Host $eventMessage
 }
 
 WriteEvent "Checking for updates after date: $threshold"
@@ -25,19 +25,17 @@ if ($updates.Count -eq 0)
 else
 {
     WriteEvent "Check for available updates is complete.  There are $($updates.Count) updates to apply." 'Information' '1001'
-	foreach ($update in $updates)
-	{
-		if ($update.LastDeploymentChangeTime -lt $threshold)
-		{
-			WriteEvent "Old enough: $($update.Title) => $($update.LastDeploymentChangeTime)"
-		}
-		else
-		{
-			WriteEvent "Too New: $($update.Title) => $($update.LastDeploymentChangeTime)"
-		}
-	}
-	
-	Exit
+    foreach ($update in $updates)
+    {
+        if ($update.LastDeploymentChangeTime -lt $threshold)
+        {
+            WriteEvent "Old enough: $($update.Title) => $($update.LastDeploymentChangeTime)"
+        }
+        else
+        {
+            WriteEvent "Too New: $($update.Title) => $($update.LastDeploymentChangeTime)"
+        }
+    }
 	
     #Create download object
     $downloader = $updateSession.CreateUpdateDownloader()
