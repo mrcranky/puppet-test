@@ -32,6 +32,18 @@ node default {
     ensure => directory,
   } ->
 
+  file { 'c:\installers\windows_update.ps1':
+    ensure => present,
+    source => 'puppet:///modules/thor/windows_update.ps1',
+    source_permissions => ignore,
+  } ->
+
+  exec { 'WindowsUpdate':
+    path => $::path,
+    command => 'powershell .\windows_update.ps1 \"04/16/2015 12:00\"', 
+    logoutput => true,
+  } ->
+
   s3get { 'installers/npp.6.7.7.Installer.exe':
     cwd     => 'c:\installers',
     name    => 'npp-Installer.exe',
